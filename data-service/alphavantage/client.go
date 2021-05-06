@@ -47,6 +47,10 @@ func (c AlphaVantageClient) GetGlobalQuote(symbol string) (*AVGlobalQuoteRespons
 	}
 
 	defer resp.Body.Close()
+	if resp.StatusCode != 200 {
+		return nil, fmt.Errorf("Error fetching quote for symbol '%s': %s", symbol, resp.Status)
+	}
+
 	avGlobalQuoteResponse := AVGlobalQuoteResponse{}
 	err = json.NewDecoder(resp.Body).Decode(&avGlobalQuoteResponse)
 	if err != nil {
@@ -64,6 +68,10 @@ func (c AlphaVantageClient) GetOverview(symbol string) (*AVOverviewResponse, err
 	}
 
 	defer resp.Body.Close()
+	if resp.StatusCode != 200 {
+		return nil, fmt.Errorf("Error fetching overview for symbol '%s': %s", symbol, resp.Status)
+	}
+
 	avOverviewResponse := AVOverviewResponse{}
 	err = json.NewDecoder(resp.Body).Decode(&avOverviewResponse)
 	if err != nil {
