@@ -25,7 +25,20 @@ Optional environment variables:
 - `SKIP_SSL_VERIFY` - By default this is disabled, meaning SSL certificates are checked when making network requests to Alpha Vantage. Set this to `1` to enable it. This should **only be used in local testing**. This was added only for convenience because the Ubuntu container used in this project does not recognise the CA used to generate the SSL certificate for Alpha Vantage.
 
 ## Running with docker-compose
-This project uses `docker-compose` to spin up both services together and to allow them to talk to one another. Before spinning them up, you need to create environment variable file for each of the services.
+This project uses `docker-compose` to spin up both services together and to allow them to talk to one another. Before spinning them up, you need to build the linux binary and create environment variable file for each of the services.
+
+```
+cd data-service
+GOOS=linux GOARCH=arm64 go build .
+
+cd ../encryption-service
+GOOS=linux GOARCH=arm64 go build .
+
+# go back to project root directory
+cd ..
+```
+
+In the project root directory:
 
 `encryption-service.env`
 ```
