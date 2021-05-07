@@ -1,5 +1,6 @@
 # Binaries for programs and plugins
-encryption-service
+data-service/data-service
+encryption-service/encryption-service
 *.exe
 *.exe~
 *.dll
