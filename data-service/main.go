@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -99,10 +100,19 @@ func main() {
 		log.Fatalln("Missing ENCRYPTION_SERVICE_HOST in environment.")
 	}
 
+	skipSSLVerify := os.Getenv("SKIP_SSL_VERIFY") == "1"
+	log.Printf("Skip SSL verify: %t\n", skipSSLVerify)
+
+	// Only for convenience
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: skipSSLVerify},
+	}
+
 	alphaVantageClient = alphavantage.AlphaVantageClient{
 		APIKey: key,
 		Client: &http.Client{
-			Timeout: 10 * time.Second,
+			Timeout:   10 * time.Second,
+			Transport: tr,
 		},
 	}
 
