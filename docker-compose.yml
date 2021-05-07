@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  encryption-service:
+    build: encryption-service
+    env_file:
+      - encryption-service.env
+    ports:
+      - "8080:8080"
+  data-service:
+    build: data-service
+    env_file:
+      - data-service.env
+    ports:
+      - "8081:8081"
